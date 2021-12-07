@@ -27,6 +27,7 @@ def show_wordcloud(data, title = None):
 
 
 def execute():
+    
     raw_data = pd.read_json(config.file_name, lines=True)
     util.perform_EDA(raw_data)
     cleaned_data=util.clean_data(raw_data)
