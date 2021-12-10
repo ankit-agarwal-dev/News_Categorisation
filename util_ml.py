@@ -10,7 +10,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import svm
-
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report,accuracy_score
 from gensim.models import word2vec
@@ -29,11 +28,10 @@ def clean_data(uncleaned_df):
     data_cleaning = uncleaned_df.drop(columns=['date','link'])  # Drop Non-useful columns
     data_cleaning.replace("", np.nan, inplace = True)           # Replace all blank values with NaN
     data_cleaning.dropna(axis=0, inplace = True)                # Drop all rows with Null values
-    #data_cleaning['text'] = data_cleaning['authors'] + '. ' + data_cleaning['headline'] + '. ' + data_cleaning[
-    #    'short_description']
     data_cleaning['text'] = data_cleaning['headline'] + '. ' + data_cleaning['short_description'] + '. ' + data_cleaning['authors']
     data_cleaning['text'] = data_cleaning['text'].str.lower()
     data_cleaning['text'].replace(regex=True, inplace=True, to_replace=r'[^0-9a-z ]', value=r'')
+
 
     print(data_cleaning)
     # Megre related categories ino one
@@ -53,9 +51,16 @@ def clean_data(uncleaned_df):
     merged_categories = merge_categories(data_cleaning, "HEALTHY LIVING","HOME & LIVING")
     merged_categories = merge_categories(data_cleaning, "WEDDINGS", "MARRIAGE")
     merged_categories = merge_categories(data_cleaning, "DIVORCE", "MARRIAGE")
+    merged_categories = merge_categories(data_cleaning, "BUSINESS", "BUSINESS & FINANCES")
+    merged_categories = merge_categories(data_cleaning, "MONEY", "BUSINESS & FINANCES")
+
     data_wo_stop_word = remove_stop_words(merged_categories)
     print(data_wo_stop_word)
     print(data_wo_stop_word.category.value_counts())
+    data_wo_stop_word['text_length'] = data_wo_stop_word.text.apply(lambda i: len(i))
+    print(" Text with minimum Length " + str(data_wo_stop_word.text.str.len().min()))
+    print(" Duplicate data " + str(data_wo_stop_word.text.duplicated().sum()))
+    data_wo_stop_word.drop_duplicates(subset=['text'], inplace=True)
     return data_wo_stop_word
 
 
