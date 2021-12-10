@@ -55,16 +55,27 @@ def execute_ml():
     # Hyper Parameter tuning for better model amongst all i.e. SVM
     #util.hyper_tuning_SVM(x_train, y_train)
 
-def execute_stock_price():
+def execute_stock_prices():
+
     stock_metadata = util_stock_price.read_json(config.META_FILE_NAME)
+
+    #for key in stock_metadata:
+     #   util_stock_price.read_api(config.API_URL, stock_metadata[key], config.API_KEY)
+
+
+    stock_df=pd.DataFrame(stock_metadata, index=[0])
+    print(stock_df[0])
+
+
     for key in stock_metadata:
-        util_stock_price.read_api(config.API_URL, stock_metadata[key], key)
+        stock_prices = pd.read_csv(str(stock_metadata[key])+".csv", skip_blank_lines=True, header=0, usecols=['timestamp','close'])
+        stock_prices['stock_symbol'] = stock_metadata[key]
 
     #util_stock_price.read_csv
     #util_stock_price.read_api(config.API_URL, 'IBM', config.API_KEY)
 
 
 if __name__ == "__main__":
-    execute_stock_price()
+    execute_stock_prices()
 else:
     execute_ml()
