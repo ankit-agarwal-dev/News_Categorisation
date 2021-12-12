@@ -46,5 +46,7 @@ if __name__ == "__main__":
         print('Insufficient Arguments. Please pass either "Stock_Prices" or "News_Classification"')
     elif sys.argv[1]=="Stock_Prices":
         execute_stock_prices()
-    else:
+    elif sys.argv[1]=="News_Classification":
         execute_ml()
+    else:
+        print('Incorrect Arguments. Please pass either "Stock_Prices" or "News_Classification"')
