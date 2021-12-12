@@ -2,8 +2,9 @@ import pandas as pd
 import config
 import util_ml
 import util_stock_price
-
+import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.dates as DateFormatter
 
 
 def show_wordcloud(data, title = None):
@@ -62,17 +63,27 @@ def execute_stock_prices():
     #for key in stock_metadata:
      #   util_stock_price.read_api(config.API_URL, stock_metadata[key], config.API_KEY)
 
+    stock_metadata_df=pd.DataFrame(list(stock_metadata.items()),columns=['stock_name','stock_symbol'])
 
-    stock_df=pd.DataFrame(stock_metadata, index=[0])
-    print(stock_df[0])
-
+    stock_prices_cf = pd.DataFrame()
 
     for key in stock_metadata:
         stock_prices = pd.read_csv(str(stock_metadata[key])+".csv", skip_blank_lines=True, header=0, usecols=['timestamp','close'])
         stock_prices['stock_symbol'] = stock_metadata[key]
+        stock_prices_cf = stock_prices_cf.append(stock_prices, ignore_index=True)
 
-    #util_stock_price.read_csv
-    #util_stock_price.read_api(config.API_URL, 'IBM', config.API_KEY)
+
+    merged_data=pd.merge(stock_prices_cf,stock_metadata_df,on='stock_symbol')
+    merged_data['timestamp']= pd.to_datetime(merged_data['timestamp'])
+
+    merged_data.set_index('timestamp',inplace=True)
+
+    merged_data.groupby('stock_name')['close'].plot(legend=True)
+    plt.xlabel('Date')
+    plt.ylabel('Close Price')
+    plt.title("FAANG Analysis")
+
+    plt.show()
 
 
 if __name__ == "__main__":
