@@ -2,30 +2,7 @@ import pandas as pd
 import config
 import util_ml
 import util_stock_price
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.dates as DateFormatter
-
-
-def show_wordcloud(data, title = None):
-    wordcloud = WordCloud(
-        background_color='white',
-        stopwords=STOPWORDS,
-        max_words=200,
-        max_font_size=40,
-        scale=3,
-        random_state=1 # chosen at random by flipping a coin; it was heads
-    ).generate(str(data))
-
-    fig = plt.figure(1, figsize=(12, 12))
-    plt.axis('off')
-    if title:
-        fig.suptitle(title, fontsize=20)
-        fig.subplots_adjust(top=2.3)
-
-    plt.imshow(wordcloud)
-    plt.show()
-
+import sys
 
 def execute_ml():
 
@@ -58,35 +35,16 @@ def execute_ml():
 
 def execute_stock_prices():
 
+
     stock_metadata = util_stock_price.read_json(config.META_FILE_NAME)
-
-    #for key in stock_metadata:
-     #   util_stock_price.read_api(config.API_URL, stock_metadata[key], config.API_KEY)
-
-    stock_metadata_df=pd.DataFrame(list(stock_metadata.items()),columns=['stock_name','stock_symbol'])
-
-    stock_prices_cf = pd.DataFrame()
-
-    for key in stock_metadata:
-        stock_prices = pd.read_csv(str(stock_metadata[key])+".csv", skip_blank_lines=True, header=0, usecols=['timestamp','close'])
-        stock_prices['stock_symbol'] = stock_metadata[key]
-        stock_prices_cf = stock_prices_cf.append(stock_prices, ignore_index=True)
-
-
-    merged_data=pd.merge(stock_prices_cf,stock_metadata_df,on='stock_symbol')
-    merged_data['timestamp']= pd.to_datetime(merged_data['timestamp'])
-
-    merged_data.set_index('timestamp',inplace=True)
-
-    merged_data.groupby('stock_name')['close'].plot(legend=True)
-    plt.xlabel('Date')
-    plt.ylabel('Close Price')
-    plt.title("FAANG Analysis")
-
-    plt.show()
+    prepared_data = util_stock_price.prepare_data(stock_metadata)
+    util_stock_price.chart_prices(prepared_data)
 
 
 if __name__ == "__main__":
-    execute_stock_prices()
-else:
-    execute_ml()
+    if len(sys.argv) ==1:
+        print('Insufficient Arguments. Please pass either "Stock_Prices" or "News_Classification"')
+    elif sys.argv[1]=="Stock_Prices":
+        execute_stock_prices()
+    else:
+        execute_ml()
