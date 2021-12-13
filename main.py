@@ -4,6 +4,7 @@ import util_ml
 import util_stock_price
 import sys
 
+
 def execute_ml():
 
     raw_data = pd.read_json(config.NEWS_FILE_NAME, lines=True)
@@ -14,9 +15,9 @@ def execute_ml():
     # Count Vectorizer
     print('Count Vectorizer')
     x_train, y_train, x_test, y_test = util_ml.count_vectorizer(cleaned_data)
-    #util.multi_naive_bayes_model(x_train, y_train, x_test, y_test)
+    util_ml.multi_naive_bayes_model(x_train, y_train, x_test, y_test)
     util_ml.svm_model(x_train, y_train, x_test, y_test)
-    #util.random_forest_model(x_train, y_train, x_test, y_test)
+    util_ml.random_forest_model(x_train, y_train, x_test, y_test)
     #util.knn_model(x_train, y_train, x_test, y_test)  # KNN Accuracy 0.2518819452742263
 
     # Hyper Parameter tuning for better model amongst all i.e. SVM
@@ -25,13 +26,13 @@ def execute_ml():
     # TFIDF
     print('TFIDF)')
     x_train, y_train, x_test, y_test = util_ml.tfidf_vectorizer(cleaned_data)
-    #util.multi_naive_bayes_model(x_train, y_train, x_test, y_test)
+    util_ml.multi_naive_bayes_model(x_train, y_train, x_test, y_test)
     util_ml.svm_model(x_train, y_train, x_test, y_test)
     #util.knn_model(x_train, y_train, x_test, y_test)  # KNN Accuracy 0.6452981240291552
-    #util.random_forest_model(x_train, y_train, x_test, y_test)
+    util_ml.random_forest_model(x_train, y_train, x_test, y_test)
 
     # Hyper Parameter tuning for better model amongst all i.e. SVM
-    #util.hyper_tuning_SVM(x_train, y_train)
+    util_ml.hyper_tuning_SVM(x_train, y_train)
 
 def execute_stock_prices():
 
