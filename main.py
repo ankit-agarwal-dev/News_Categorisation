@@ -13,42 +13,38 @@ def execute_ml():
     util_ml.chart_data(cleaned_data)
 
     # Count Vectorizer
-    print('Count Vectorizer')
+    print('Count Vectorizer Method')
     x_train, y_train, x_test, y_test = util_ml.count_vectorizer(cleaned_data)
     start_time = time.time()
-    util_ml.multi_naive_bayes_model(x_train, y_train, x_test, y_test)
+    y_pred_vect_naive=util_ml.multi_naive_bayes_model(x_train, y_train, x_test, y_test)
     print("Total time taken by Multi Naive Model is :- " + str(time.time() - start_time))  # Time taken is 0.70 secs and F1 Score is 65%
     start_time = time.time()
-    util_ml.svm_model(x_train, y_train, x_test, y_test)
+    y_pred_vect_svm =util_ml.svm_model(x_train, y_train, x_test, y_test)
     print("Total time taken by SVM Model is :- " + str(time.time() - start_time))  # Time taken is 47.18 secs and F1 Score is 68%
     start_time = time.time()
-    util_ml.random_forest_model(x_train, y_train, x_test, y_test)
+    #y_pred_vect_forest=util_ml.random_forest_model(x_train, y_train, x_test, y_test)
     print("Total time taken by Random Forest Model is :- " + str(time.time() - start_time))  # Time taken is 1608.67 secs and F1 Score is 46%
 
-    #util.knn_model(x_train, y_train, x_test, y_test)  # KNN Accuracy 0.2518819452742263
-
-    # Hyper Parameter tuning for better model amongst all i.e. SVM
-    #util.hyper_tuning_SVM(x_train, y_train)
+    #y_pred_vect_knn=util.knn_model(x_train, y_train, x_test, y_test)  # KNN Accuracy 0.2518819452742263
 
     # TFIDF
-    print('TFIDF)')
+    print('TFIDF Method')
     x_train, y_train, x_test, y_test = util_ml.tfidf_vectorizer(cleaned_data)
     start_time = time.time()
-    util_ml.multi_naive_bayes_model(x_train, y_train, x_test, y_test)
+    y_pred_tfidf_naive =util_ml.multi_naive_bayes_model(x_train, y_train, x_test, y_test)
     print("Total time taken by Multi Naive Model is :- " + str(time.time() - start_time)) # Time taken is 49.90 secs and F1 Score is 46%
     start_time = time.time()
-    util_ml.svm_model(x_train, y_train, x_test, y_test)
+    y_pred_tfidf_svm =util_ml.svm_model(x_train, y_train, x_test, y_test)
     print("Total time taken by SVM Model is :- " + str(time.time() - start_time))  # Time taken is 14.56 secs and F1 Score is 77%
     start_time = time.time()
-    util_ml.knn_model(x_train, y_train, x_test, y_test)  # KNN Accuracy 0.6452981240291552cd
+    #y_pred_tfidf_knn=util_ml.knn_model(x_train, y_train, x_test, y_test)  # KNN Accuracy 0.6452981240291552cd
     print("Total time taken by KNN Model is :- " + str(time.time() - start_time)) # Time taken is 521.65 secs and F1 Score is 61%
     start_time = time.time()
-    util_ml.random_forest_model(x_train, y_train, x_test, y_test)
+    #y_pred_tfidf_forest=util_ml.random_forest_model(x_train, y_train, x_test, y_test)
     print("Total time taken by Random Forest Model is :- " + str(time.time() - start_time)) # Time taken is 1376.05 secs and F1 Score is 68%
     # Hyper Parameter tuning for better model amongst all i.e. SVM
-    start_time = time.time()
-    util_ml.hyper_tuning_SVM(x_train, y_train)
-
+    #util_ml.hyper_tuning_SVM(x_train, y_train)
+    util_ml.show_confusion_matrix(y_test, y_pred_tfidf_svm)
 def execute_stock_prices():
 
 

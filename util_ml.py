@@ -16,7 +16,7 @@ from gensim.models import word2vec
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 import pandas as pd
-
+from sklearn.metrics import confusion_matrix
 
 def read_json_file(file_name):
     data = pd.read_json(file_name, lines=True)
@@ -27,6 +27,8 @@ def perform_EDA(df):
     df.info()
     df.describe()
     print(df.category.value_counts())
+    for col_name in ['headline','short_description','authors']:
+        chart_length_data(df[col_name].apply(lambda x: len(str(x).split())),col_name)
 
 
 def clean_data(uncleaned_df):
@@ -77,7 +79,13 @@ def merge_categories(df, original_category, to_be_replaced_category):
 
 def chart_data(df):
     sns.set_style('whitegrid')
-    sns.countplot(y='category', data=df, palette='RdBu_r')
+    sns.countplot(y='category', data=df, palette='RdBu_r',order = df['category'].value_counts().index)
+    plt.show()
+
+
+def chart_length_data(col_data, col_name):
+    sns.distplot(col_data)
+    plt.title(col_name + ' Number of Words')
     plt.show()
 
 
@@ -123,6 +131,8 @@ def multi_naive_bayes_model(X_train, Y_train, X_test, Y_test):
     print("Multi Naive Train Accuracy " + str(nb.score(X_train, Y_train)))
     print("Multi Naive Test Accuracy " + str(nb.score(X_test, Y_test)))
     print(classification_report(Y_test, Y_pred))
+    return Y_pred
+
 
 def knn_model(X_train, Y_train, X_test, Y_test):
     knn = KNeighborsClassifier(n_neighbors=2)
@@ -131,6 +141,7 @@ def knn_model(X_train, Y_train, X_test, Y_test):
     print("KNN Train Accuracy " + str(knn.score(X_train, Y_train)))
     print("KNN Test Accuracy " + str(knn.score(X_test, Y_test)))
     print(classification_report(Y_test, Y_pred))
+    return Y_pred
 
 
 def svm_model(X_train, Y_train, X_test, Y_test):
@@ -140,6 +151,7 @@ def svm_model(X_train, Y_train, X_test, Y_test):
     print("SVM Train Accuracy " + str(svm_classifier.score(X_train, Y_train)))
     print("SVM Test Accuracy " + str(svm_classifier.score(X_test, Y_test)))
     print(classification_report(Y_test, Y_pred))
+    return Y_pred
 
 
 def random_forest_model(X_train, Y_train, X_test, Y_test):
@@ -148,7 +160,7 @@ def random_forest_model(X_train, Y_train, X_test, Y_test):
     print("Random Forest Train Accuracy " + str(random_forest_classifier.score(X_train, Y_train)))
     print("Random Forest Test Accuracy " + str(random_forest_classifier.score(X_test, Y_test)))
     print(classification_report(Y_test, Y_pred))
-
+    return Y_pred
 
 def hyper_tuning_SVM(X_train, Y_train):
     # defining parameter range
@@ -167,3 +179,17 @@ def hyper_tuning_SVM(X_train, Y_train):
 
     # print how our model looks after hyper-parameter tuning
     print(grid.best_estimator_)
+
+
+def show_confusion_matrix(test_df, pred_df):
+    cf_matrix= confusion_matrix(test_df, pred_df)
+    print(cf_matrix)
+    ax = sns.heatmap(cf_matrix/np.sum(cf_matrix), annot=True, fmt='.2%', cmap='Blues')
+
+    ax.set_title('Confusion Matrix');
+    ax.set_xlabel('Predicted Values')
+    ax.set_ylabel('Actual Values ');
+
+    ## Display the visualization of the Confusion Matrix.
+    plt.show()
+
