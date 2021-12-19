@@ -11,10 +11,16 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import svm
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import classification_report,accuracy_score
+from sklearn.metrics import classification_report
 from gensim.models import word2vec
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
+import pandas as pd
+
+
+def read_json_file(file_name):
+    data = pd.read_json(file_name, lines=True)
+    return data
 
 
 def perform_EDA(df):
@@ -96,7 +102,6 @@ def count_vectorizer(df):
     X = vectorizer.fit_transform(df['text_wo_stop_words'] )
     encoder = LabelEncoder()
     Y = encoder.fit_transform(df['category'])
-
     x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random_state = 42)
     return (x_train, y_train, x_test, y_test)
 

@@ -3,6 +3,8 @@ import pandas as pd
 import json
 import sys
 import matplotlib.pyplot as plt
+import config
+
 
 def read_api(URL, symbol, key):
     limit_exceeded = 0
@@ -18,7 +20,6 @@ def read_api(URL, symbol, key):
         print("API key limit Exceeded. Limit is 5 calls per minute or 500 calls per day")
         return sys.exit()
     else:
-        print("Exiting Program")
         write_csv_file(stock_data_json, symbol)
 
 
@@ -42,6 +43,7 @@ def prepare_data(df):
     stock_prices_cf = pd.DataFrame()
 
     for key in df:
+        read_api(config.API_URL, df[key] , config.API_KEY)
         stock_prices = pd.read_csv(str(df[key]) + ".csv", skip_blank_lines=True, header=0,
                                    usecols=['timestamp', 'close'])
         stock_prices['stock_symbol'] = df[key]
@@ -60,6 +62,6 @@ def chart_prices(df):
     df.groupby('stock_name')['close'].plot(legend=True)
     plt.xlabel('Date')
     plt.ylabel('Close Price')
-    plt.title("FAANG Analysis")
+    plt.title("FAANG Adjusted Price Analysis")
 
     plt.show()
