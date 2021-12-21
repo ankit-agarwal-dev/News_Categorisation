@@ -1,4 +1,3 @@
-
 # News content Classification and Stock Price Analysis
 
 ## Project Summary
@@ -13,8 +12,8 @@ The stock price is analysing past 20+ years' adjusted price data for prominent F
 ### News Content Classification
 
 Clone repository on to your local folder and move to home directory of the program.
-
 Following code would be executed for running the program
+
 ```python
 python main.py News_Classification  
 ```
@@ -22,10 +21,10 @@ python main.py News_Classification
 ### Stock Price Analysis
 
 Clone repository on to your local folder and move to home directory of the program.
-
 Following code would be executed for running the program
+
 ```python
-python main.py Stock Prices  
+python main.py Stock_Prices  
 ```
 
 # Dependencies
