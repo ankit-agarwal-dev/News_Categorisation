@@ -83,6 +83,7 @@ def execute_ml():
 
     # Chart Confusion Matrix
     util_ml.show_confusion_matrix(y_test, y_pred_tfidf_svm)
+    print(" \n****************** Best Accuracy Achieved using TFIDF and Linear SVM combinaton. Accuracy is 77.66%*****************\n")
     print("News Classification Program successfully completed")
 
 
