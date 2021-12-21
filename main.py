@@ -1,3 +1,16 @@
+"""
+Author: Ankit Agarwal
+Version - 1.0
+
+This script is used to achieve two objectives
+1. Run Supervised Machine learning algorithms to Classify News content
+2. Analyse historical prices of securities and chart them out
+
+    * execute_ml - Execute News Content classification program
+    * execute_stock_prices - Execute Stock prices program
+    * main - the main function of the script
+"""
+
 # Importing System libraries
 import sys
 import time
@@ -51,7 +64,6 @@ def execute_ml():
     #print("Total time taken by Random Forest Model is :- " + str(time.time() - start_time))
     # Time taken by KNN model is 1608.67 secs and F1 Score is 46%
 
-
     # TFIDF method for textual processing
     print("\nStarting TFIDF Method...")
     # Converting into numerical vector and splitting the data in to test and training sets
@@ -78,7 +90,6 @@ def execute_ml():
     y_pred_tfidf_forest=util_ml.random_forest_model(x_train, y_train, x_test, y_test)
     print("Total time taken by Random Forest Model is :- " + str(time.time() - start_time))
     #  Time taken by Random Forest model is 1376.05 secs and F1 Score is 68%
-
 
     # Hyper Parameter tuning for better model amongst all i.e. SVM
     util_ml.hyper_tuning_SVM(x_train, y_train)
