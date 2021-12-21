@@ -45,8 +45,9 @@ def perform_EDA(df):
     """
 
     df.info()
+
     df.describe()
-    print("Unique Number of Categories in the data set before data cleaning " + str(df.category.value_counts()))
+    print("\nUnique Number of Categories in the data set before data cleaning\n" + str(df.category.value_counts()))
 
     # Charting length of the features
     for col_name in ['headline','short_description','authors']:
@@ -97,7 +98,7 @@ def clean_data(uncleaned_df):
 
     # Removing Stop words
     data_wo_stop_word = remove_stop_words(merged_categories)
-    print("Unique Number of Categories in the data set after data cleaning " + str(data_wo_stop_word.category.value_counts()))
+    print("\nUnique Number of Categories in the data set after data cleaning\n" + str(data_wo_stop_word.category.value_counts()))
 
     # Checking data length
     data_wo_stop_word['text_length'] = data_wo_stop_word.text.apply(lambda i: len(i))
@@ -253,8 +254,8 @@ def multi_naive_bayes_model(X_train, Y_train, X_test, Y_test):
     nb = MultinomialNB()
     nb.fit(X_train, Y_train)
     Y_pred = nb.predict(X_test)
-    print("Multi Naive Train Accuracy " + str(nb.score(X_train, Y_train)))
-    print("Multi Naive Test Accuracy " + str(nb.score(X_test, Y_test)))
+    print("Multi Naive Train Accuracy " + str(nb.score(X_train, Y_train)*100) + "%")
+    print("Multi Naive Test Accuracy " + str(nb.score(X_test, Y_test)*100) + "%\n")
     print("Classification Report for Multi Naive Bayes Model")
     print(classification_report(Y_test, Y_pred))
     return Y_pred
@@ -275,8 +276,8 @@ def knn_model(X_train, Y_train, X_test, Y_test):
     knn = KNeighborsClassifier(n_neighbors=2)
     knn.fit(X_train, Y_train)
     Y_pred = knn.predict(X_test)
-    print("KNN Train Accuracy " + str(knn.score(X_train, Y_train)))
-    print("KNN Test Accuracy " + str(knn.score(X_test, Y_test)))
+    print("KNN Train Accuracy " + str(knn.score(X_train, Y_train)*100) + "%")
+    print("KNN Test Accuracy " + str(knn.score(X_test, Y_test)*100) + "%\n")
     print("Classification Report for KNN Model")
     print(classification_report(Y_test, Y_pred))
     return Y_pred
@@ -297,8 +298,8 @@ def svm_model(X_train, Y_train, X_test, Y_test):
     svm_classifier = svm.LinearSVC()
     svm_classifier.fit(X_train, Y_train)
     Y_pred = svm_classifier.predict(X_test)
-    print("SVM Train Accuracy " + str(svm_classifier.score(X_train, Y_train)))
-    print("SVM Test Accuracy " + str(svm_classifier.score(X_test, Y_test)))
+    print("SVM Train Accuracy " + str(svm_classifier.score(X_train, Y_train)*100) + "%")
+    print("SVM Test Accuracy " + str(svm_classifier.score(X_test, Y_test)*100) + "%\n")
     print("Classification Report for SVM Model")
     print(classification_report(Y_test, Y_pred))
     return Y_pred
@@ -318,8 +319,8 @@ def random_forest_model(X_train, Y_train, X_test, Y_test):
 
     random_forest_classifier = RandomForestClassifier(random_state=101).fit(X_train, Y_train)
     Y_pred = random_forest_classifier.predict(X_test)
-    print("Random Forest Train Accuracy " + str(random_forest_classifier.score(X_train, Y_train)))
-    print("Random Forest Test Accuracy " + str(random_forest_classifier.score(X_test, Y_test)))
+    print("Random Forest Train Accuracy " + str(random_forest_classifier.score(X_train, Y_train)*100) + "%")
+    print("Random Forest Test Accuracy " + str(random_forest_classifier.score(X_test, Y_test)*100) + "%\n")
     print("Classification Report for Random Forest Model")
     print(classification_report(Y_test, Y_pred))
     return Y_pred

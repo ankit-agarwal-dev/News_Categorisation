@@ -15,14 +15,14 @@ def execute_ml():
     :return: None
     """
 
-    print("Starting the News Classification Program ")
+    print("Starting the News Classification Program...")
     raw_data = util_ml.read_json_file(config.NEWS_FILE_NAME) # Reading Json file for raw labelled data
     util_ml.perform_EDA(raw_data) # Performing EDA on the data set
     cleaned_data=util_ml.clean_data(raw_data) # Cleaning the data
     util_ml.chart_data(cleaned_data) # Charting the cleaned data
 
     # Count Vectorizer method for textual processing
-    print('Starting Count Vectorizer Method...')
+    print('\nStarting Count Vectorizer Method...')
     # Converting into numerical vector and splitting the data in to test and training sets
     x_train, y_train, x_test, y_test = util_ml.count_vectorizer(cleaned_data)
 
@@ -39,7 +39,7 @@ def execute_ml():
     # Time taken by Multi SVM model is 47.18 secs and F1 Score is 68%
 
     # Running Random Forest Model
-    #start_time = time.time()
+    start_time = time.time()
     #y_pred_vect_forest=util_ml.random_forest_model(x_train, y_train, x_test, y_test)
     #print("Total time taken by Random Forest Model is :- " + str(time.time() - start_time))
     #  Time taken by Random Forest model is 1608.67 secs and F1 Score is 46%
@@ -52,7 +52,7 @@ def execute_ml():
 
 
     # TFIDF method for textual processing
-    print('Starting TFIDF Method...')
+    print("\nStarting TFIDF Method...")
     # Converting into numerical vector and splitting the data in to test and training sets
     x_train, y_train, x_test, y_test = util_ml.tfidf_vectorizer(cleaned_data)
 
@@ -93,7 +93,7 @@ def execute_stock_prices():
     :return:
     """
 
-    print("Starting the Stock Prices Program ")
+    print("Starting the Stock Prices Program...")
     # Read metadta for the interested stocks i.e. FAANG group in tis case
     stock_metadata = util_stock_price.read_json(config.META_FILE_NAME)
 
@@ -103,6 +103,7 @@ def execute_stock_prices():
     # Charting the price time-series analysis
     util_stock_price.chart_prices(prepared_data)
     print("Stock Prices Program successfully completed")
+
 
 # Main program for executing the program
 if __name__ == "__main__":
