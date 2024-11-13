@@ -9,6 +9,7 @@ This script is used to achieve two objectives
     * execute_ml - Execute News Content classification program
     * execute_stock_prices - Execute Stock prices program
     * main - the main function of the script
+
 """
 
 # Importing System libraries
@@ -124,7 +125,7 @@ if __name__ == "__main__":
 
     # Checking number of arguments passed and calling the correct program
     if len(sys.argv) ==1:
-        print('Insufficient Arguments. Please pass either "Stock_Prices" or "News_Classification"')
+        print('Insufficient Arguments. Please pass either "Stock_Prices" or "News_Classification."')
     elif sys.argv[1]=="Stock_Prices":
         execute_stock_prices()
     elif sys.argv[1]=="News_Classification":
